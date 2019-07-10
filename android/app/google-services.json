@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "364236086160",
+    "firebase_url": "https://climate-camp-2019.firebaseio.com",
+    "project_id": "climate-camp-2019",
+    "storage_bucket": "climate-camp-2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364236086160:android:f6d7bc778fe0d488",
+        "android_client_info": {
+          "package_name": "org.obozdlaklimatu.odk_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364236086160-p4740itg15o89lqpqudq57k53p0d31qd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6COsTADx_SFrlZ3f53_q_F5CkPsjdv2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364236086160-p4740itg15o89lqpqudq57k53p0d31qd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
