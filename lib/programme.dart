@@ -29,38 +29,12 @@ class _ProgrammeViewState extends State<ProgrammeView> {
         if (!snapshot.hasData)
           return LinearProgressIndicator();
         else
-          return _buildAll(context, snapshot.data.documents);
+          return _buildMainContent(context, snapshot.data.documents);
       },
     );
   }
 
-  Widget _dummy() {
-    return Container(
-      child: SingleChildScrollView(
-          child: ConstrainedBox(
-              constraints: BoxConstraints(),
-              child: Column(
-                  children: <Widget>[
-                    new Container(
-                      padding:
-                      EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-                      color: Colors.grey,
-                      child: new Text(
-                        'Cast Light life style Here',
-                        style: new TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    )
-                  ]
-              )
-          )
-      ),
-    );
-  }
-  Widget _buildAll(BuildContext context, List<DocumentSnapshot> snapshot) {
+  _buildMainContent(BuildContext context, List<DocumentSnapshot> snapshot) {
     Map<int, List<DocumentSnapshot>> days = groupBy(snapshot, (item) {
       DateTime date = item.data["date"];
       return date.day;
@@ -70,23 +44,20 @@ class _ProgrammeViewState extends State<ProgrammeView> {
       ..sort((key1, key2) => key1.compareTo(key2));
 
     return Container(
-      child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(),
-          child: Column(
-                  children: sortedKeys.map((item) {
-                    return _buildDay(context, days[item], item.toString());
-                  }).toList(),
-
-                ),
-        ),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("images/programme.jpg"), fit: BoxFit.fill),
+      ),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildListDelegate(sortedKeys.map((item) {
+              return _buildDay(context, days[item], item.toString());
+            }).toList()),
+          )
+        ],
       ),
     );
-//        decoration: BoxDecoration(
-//          image: DecorationImage(
-//              image: AssetImage("images/programme.jpg"), fit: BoxFit.fill),
-//        )
-
   }
 
   Widget _buildDay(
@@ -97,20 +68,29 @@ class _ProgrammeViewState extends State<ProgrammeView> {
       return x.compareTo(y);
     });
 
-    return ListView(
-      physics: AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(top: 20.0),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      children: [
+    return Column(
+      children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Text(
-            format.format(snapshot[0].data["date"]),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(format.format(snapshot[0].data["date"]),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    background: Paint()..color = Colors.white)),
           ),
         ),
-        ...snapshot.map((data) => _buildListItem(context, data)).toList()
+        ListView.builder(
+          padding: EdgeInsets.only(top: 8.0),
+          itemBuilder: (context, index) =>
+              _buildListItem(context, snapshot[index]),
+          itemCount: snapshot.length,
+          shrinkWrap: true,
+          // todo comment this out and check the result
+          physics:
+              ClampingScrollPhysics(), // todo comment this out and check the result
+        ),
       ],
     );
   }
