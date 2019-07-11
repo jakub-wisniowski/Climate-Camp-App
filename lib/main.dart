@@ -16,15 +16,14 @@ class _MainPageState extends State<MainPage> {
     final navKey = new GlobalKey<NavigatorState>();
 
     return MaterialApp(
+        title: "Obóz dla Klimatu 2019",
         navigatorKey: navKey,
         routes: <String, WidgetBuilder>{
           '/items-view': (BuildContext context) => ItemsView(),
           '/programme-view': (BuildContext context) => ProgrammeView()
         },
         home: Scaffold(
-            appBar: AppBar(
-              title: Text("Obóz dla Klimatu"),
-            ),
+            appBar: AppBar(title: Text("Obóz dla Klimatu")),
             body: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(

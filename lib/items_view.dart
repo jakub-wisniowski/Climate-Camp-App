@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models/thing.dart';
+import 'models/Thing.dart';
 
 class ItemsView extends StatefulWidget {
   @override

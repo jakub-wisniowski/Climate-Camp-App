@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'programme_details_view.dart';
 
-import 'models/programme.dart';
+import 'models/Programme.dart';
 
 class ProgrammeView extends StatefulWidget {
   @override
@@ -12,7 +12,9 @@ class ProgrammeView extends StatefulWidget {
 }
 
 class _ProgrammeViewState extends State<ProgrammeView> {
-  DateFormat format = new DateFormat("EEEE dd MMM");
+  DateFormat format = new DateFormat("EE dd.MM");
+  
+  DateFormat shortFormat = new DateFormat("hh:mm");
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,7 @@ class _ProgrammeViewState extends State<ProgrammeView> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
               child: Text(
-                programme.polish,
+                "${shortFormat.format(programme.date)} ${programme.polish}",
                 style: TextStyle(
                     color: programme.date.compareTo(DateTime.now()) < 0
                         ? Colors.white

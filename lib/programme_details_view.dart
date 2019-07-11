@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:odk_app/models/programme.dart';
+import 'package:odk_app/models/Programme.dart';
 
 class ProgrammeDetailsView extends StatelessWidget {
   Programme item;
