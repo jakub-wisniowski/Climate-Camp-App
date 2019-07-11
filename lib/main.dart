@@ -47,9 +47,16 @@ class _MainPageState extends State<MainPage> {
                             return RaisedButton(
                                 child: Text(
                                   "Zarejestruj się",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
+                                shape: new RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.white30, width: 3),
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
                                 color: Colors.deepPurpleAccent,
+                                padding: EdgeInsets.all(20.0),
                                 onPressed: () async {
                                   const url =
                                       'https://forms.gle/WoVJsEhRf7QzYuxa8';
@@ -70,9 +77,16 @@ class _MainPageState extends State<MainPage> {
                             return RaisedButton(
                                 child: Text(
                                   "Program",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
+                                shape: new RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.white30, width: 3),
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
                                 color: Colors.deepPurpleAccent,
+                                padding: EdgeInsets.all(20.0),
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context, "/programme-view");
@@ -88,9 +102,16 @@ class _MainPageState extends State<MainPage> {
                             return RaisedButton(
                                 child: Text(
                                   "Lista rzeczy",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
+                                shape: new RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.white30, width: 3),
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
                                 color: Colors.deepPurpleAccent,
+                                padding: EdgeInsets.all(20.0),
                                 onPressed: () {
                                   Navigator.pushNamed(context, "/items-view");
                                 });

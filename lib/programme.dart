@@ -13,8 +13,8 @@ class ProgrammeView extends StatefulWidget {
 
 class _ProgrammeViewState extends State<ProgrammeView> {
   DateFormat format = new DateFormat("EE dd.MM");
-  
-  DateFormat shortFormat = new DateFormat("hh:mm");
+
+  DateFormat shortFormat = new DateFormat("HH:mm");
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +76,16 @@ class _ProgrammeViewState extends State<ProgrammeView> {
           padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
           child: Align(
             alignment: Alignment.center,
-            child: Text(format.format(snapshot[0].data["date"]),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    background: Paint()..color = Colors.white)),
+            child: Container(
+                child: Text(format.format(snapshot[0].data["date"]),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.deepPurpleAccent),
+                padding: new EdgeInsets.fromLTRB(60.0, 16.0, 60.0, 16.0)),
           ),
         ),
         ListView.builder(
