@@ -4,7 +4,7 @@ import 'package:odk_app/models/Programme.dart';
 
 class ProgrammeDetailsView extends StatelessWidget {
   Programme item;
-  DateFormat format = new DateFormat("HH:mm EEEE dd.MM");
+  DateFormat format = new DateFormat("HH:mm dd.MM");
 
   ProgrammeDetailsView({Key key, @required this.item}) : super(key: key);
 
@@ -31,11 +31,11 @@ class ProgrammeDetailsView extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Center(child: Padding(
+                      Flexible(child: Padding(
                         padding: const EdgeInsets.only(top: 40.0, left: 40.0, bottom: 20.0),
                         child: Text("Kiedy:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
                       )),
-                      Center(child: Padding(
+                      Flexible(child: Padding(
                         padding: const EdgeInsets.only(top: 40.0, bottom: 20.0, left: 10.0),
                         child: Text("${format.format(item.date)}", style: TextStyle(color: Colors.black, fontSize: 30)),
                       )),
@@ -44,27 +44,32 @@ class ProgrammeDetailsView extends StatelessWidget {
                   Divider(),
                   Row(
                     children: <Widget>[
-                      Center(child: Padding(
+                      Flexible(child: Padding(
                         padding: const EdgeInsets.only(top: 20.0, left: 40.0, bottom: 20.0),
                         child: Text("Gdzie:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
                       )),
-                      Center(child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0),
-                        child: Text("${item.location}", style: TextStyle(color: Colors.black, fontSize: 30)),
-                      )),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0),
+                          child: Text("${item.location}", style: TextStyle(color: Colors.black, fontSize: 30)),
+                        ),
+                      ),
                     ],
                   ),
                   Divider(),
                   Row(
                     children: <Widget>[
-                      Center(child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, left: 40.0, bottom: 20.0),
-                        child: Text("Czas trwania:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
-                      )),
-                      Center(child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0),
-                        child: Text(item.duration.toString() + " min",  style: TextStyle(color: Colors.black, fontSize: 30)),
-                      )),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0, left: 40.0, bottom: 20.0),
+                          child: Text("Czas trwania:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                        ),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0),
+                          child: Text(item.duration.toString() + " min",  style: TextStyle(color: Colors.black, fontSize: 30)),
+                        )),
                     ],
                   ),
                 ],
