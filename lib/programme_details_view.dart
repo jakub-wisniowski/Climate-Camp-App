@@ -4,7 +4,7 @@ import 'package:odk_app/models/Programme.dart';
 
 class ProgrammeDetailsView extends StatelessWidget {
   Programme item;
-  DateFormat format = new DateFormat("HH:mm EEEE dd.M");
+  DateFormat format = new DateFormat("HH:mm EEEE dd.MM");
 
   ProgrammeDetailsView({Key key, @required this.item}) : super(key: key);
 
