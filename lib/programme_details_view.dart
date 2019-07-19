@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:odk_app/localizations.dart';
 import 'package:odk_app/models/Programme.dart';
+import 'package:odk_app/services/current_language_service.dart';
 
-class ProgrammeDetailsView extends StatelessWidget {
+class ProgrammeDetailsView extends StatefulWidget {
+  final Programme item;
+
+  @override
+  _ProgrammeDetailsViewState createState() => _ProgrammeDetailsViewState(item);
+
+  ProgrammeDetailsView({Key key, @required this.item}) : super(key: key);
+}
+
+class _ProgrammeDetailsViewState extends State<ProgrammeDetailsView> {
   final Programme item;
   final DateFormat format = new DateFormat("HH:mm dd.MM");
 
-  ProgrammeDetailsView({Key key, @required this.item}) : super(key: key);
+  String _currentLanguage;
+
+  _ProgrammeDetailsViewState(this.item) : super();
+
+  onChangeLanguage() {
+    CurrentLanguageService.onChangeLanguage();
+  }
+
+  _initLocale() async {
+    _currentLanguage = await CurrentLanguageService.getLanguage();
+  }
 
   Widget rowElement(
       String label, String value, double marginBottom, double marginTop) {
@@ -35,9 +56,17 @@ class ProgrammeDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _initLocale();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(item.polish),
+        title: _currentLanguage == "en" ? Text(item.name) : Text(item.polish),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.language),
+            onPressed: onChangeLanguage,
+          )
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -55,12 +84,24 @@ class ProgrammeDetailsView extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     rowElement(
-                        "Kiedy:", "${format.format(item.date)}", 20.0, 40.0),
+                        MyLocalizations.of(context).getTranslationByKey("when"),
+                        "${format.format(item.date)}",
+                        20.0,
+                        40.0),
                     Divider(),
-                    rowElement("Gdzie:", "${item.location}", 20.0, 0.0),
+                    rowElement(
+                        MyLocalizations.of(context)
+                            .getTranslationByKey("where"),
+                        "${item.location}",
+                        20.0,
+                        0.0),
                     Divider(),
-                    rowElement("Czas trwania:",
-                        item.duration.toString() + " min", 40.0, 0.0),
+                    rowElement(
+                        MyLocalizations.of(context)
+                            .getTranslationByKey("duration"),
+                        item.duration.toString() + " min",
+                        40.0,
+                        0.0),
                   ],
                 ),
               ),

@@ -1,0 +1,10 @@
+{
+  "title": "Climate Camp",
+  "greetTo": "Nice to meet you, {{name}}!",
+  "register": "Register",
+  "programme": "Programme",
+  "checklist": "Checklist",
+  "where": "Where: ",
+  "when": "When: ",
+  "duration": "Duration: "
+}

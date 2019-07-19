@@ -2,19 +2,49 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:collection/collection.dart";
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:odk_app/services/current_language_service.dart';
 import 'programme_details_view.dart';
 
 import 'models/Programme.dart';
+import 'localizations.dart' show MyLocalizations;
 
-class ProgrammeView extends StatelessWidget {
+class ProgrammeView extends StatefulWidget {
+  @override
+  _ProgrammeViewState createState() => _ProgrammeViewState();
+}
+
+
+
+class _ProgrammeViewState extends State<ProgrammeView> {
   final DateFormat format = new DateFormat("EE dd.MM");
 
   final DateFormat shortFormat = new DateFormat("HH:mm");
 
+  Duration timezoneOffset = DateTime.now().timeZoneOffset;
+
+  String _currentLanguage = "en";
+
+  onChangeLanguage() {
+    CurrentLanguageService.onChangeLanguage();
+  }
+
+  _initLocale() async {
+    _currentLanguage = await CurrentLanguageService.getLanguage();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _initLocale();
+
     return Scaffold(
-      appBar: AppBar(title: Text("Program")),
+      appBar: AppBar(
+          title: Text(
+              MyLocalizations.of(context).getTranslationByKey("programme")),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.language),
+                onPressed: onChangeLanguage)
+          ]),
       body: _buildBody(context),
     );
   }
@@ -59,7 +89,6 @@ class ProgrammeView extends StatelessWidget {
 
   Widget _buildDay(
       BuildContext context, List<DocumentSnapshot> snapshot, String day) {
-
     //sort programme points within one day
     snapshot.sort((DocumentSnapshot a, DocumentSnapshot b) =>
         a.data["date"].compareTo(b.data["date"]));
@@ -88,8 +117,7 @@ class ProgrammeView extends StatelessWidget {
               _buildListItem(context, snapshot[index]),
           itemCount: snapshot.length,
           shrinkWrap: true,
-          physics:
-              ClampingScrollPhysics(),
+          physics: ClampingScrollPhysics(),
         ),
       ],
     );
@@ -114,7 +142,9 @@ class ProgrammeView extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
               child: Text(
-                "${shortFormat.format(programme.date)} ${programme.polish}",
+                _currentLanguage == "en"
+                    ? "${shortFormat.format(programme.date)} ${programme.name}"
+                    : "${shortFormat.format(programme.date)} ${programme.polish}",
                 style: TextStyle(
                     color: programme.date.compareTo(DateTime.now()) < 0
                         ? Colors.white

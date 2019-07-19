@@ -22,6 +22,9 @@ dependencies:
   intl: ^0.15.8
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_cupertino_localizations: ^1.0.1
   firebase_core: ^0.2.5
   cloud_firestore: ^0.8.2
 
@@ -55,7 +58,8 @@ flutter:
    - images/main_bg.jpg
    - images/programme.jpg
    - images/item_bg.jpg
-
+   - assets/en.json
+   - assets/pl.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:odk_app/localizations.dart' show MyLocalizations;
+import 'package:odk_app/services/current_language_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/Thing.dart';
@@ -11,6 +13,16 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   final Map<String, bool> things = {};
+
+  String _currentLanguage;
+
+  onChangeLanguage() {
+    CurrentLanguageService.onChangeLanguage();
+  }
+
+  _initLocale() async {
+    _currentLanguage = await CurrentLanguageService.getLanguage();
+  }
 
   Future<Null> getSharePrefs(String key) async {
     await SharedPreferences.getInstance().then((prefs) {
@@ -37,8 +49,19 @@ class _ItemsViewState extends State<ItemsView> {
 
   @override
   Widget build(BuildContext context) {
+    _initLocale();
     return Scaffold(
-        appBar: AppBar(title: Text("Lista rzeczy")), body: _buildBody(context));
+        appBar: AppBar(
+          title: Text(
+              MyLocalizations.of(context).getTranslationByKey("checklist")),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.language),
+              onPressed: onChangeLanguage,
+            )
+          ],
+        ),
+        body: _buildBody(context));
   }
 
   Widget _buildBody(BuildContext context) {
@@ -78,7 +101,7 @@ class _ItemsViewState extends State<ItemsView> {
                 : Colors.deepOrange),
         child: CheckboxListTile(
             title: Text(
-              thing.polish,
+              _currentLanguage == "en" ? thing.name : thing.polish,
               style: TextStyle(
                   color: things[thing.name] ? Colors.black : Colors.white),
             ),
