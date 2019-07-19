@@ -5,19 +5,11 @@ import 'programme.dart';
 
 void main() => runApp(MainPage());
 
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final navKey = new GlobalKey<NavigatorState>();
-
     return MaterialApp(
         title: "Obóz dla Klimatu 2019",
-        navigatorKey: navKey,
         routes: <String, WidgetBuilder>{
           '/items-view': (BuildContext context) => ItemsView(),
           '/programme-view': (BuildContext context) => ProgrammeView()
@@ -39,89 +31,48 @@ class _MainPageState extends State<MainPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
-                        child: Builder(
-                          builder: (context) {
-                            return RaisedButton(
-                                child: Text(
-                                  "Zarejestruj się",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                shape: new RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white30, width: 3),
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0)),
-                                color: Colors.deepPurpleAccent,
-                                padding: EdgeInsets.all(20.0),
-                                onPressed: () async {
-                                  const url =
-                                      'https://forms.gle/WoVJsEhRf7QzYuxa8';
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
-                        child: Builder(
-                          builder: (context) {
-                            return RaisedButton(
-                                child: Text(
-                                  "Program",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                shape: new RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white30, width: 3),
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0)),
-                                color: Colors.deepPurpleAccent,
-                                padding: EdgeInsets.all(20.0),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, "/programme-view");
-                                });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
-                        child: Builder(
-                          builder: (context) {
-                            return RaisedButton(
-                                child: Text(
-                                  "Lista rzeczy",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                shape: new RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white30, width: 3),
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0)),
-                                color: Colors.deepPurpleAccent,
-                                padding: EdgeInsets.all(20.0),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, "/items-view");
-                                });
-                          },
-                        ),
-                      ),
+                      menuButton("Zarejestruj się", () async {
+                        const url = 'https://forms.gle/WoVJsEhRf7QzYuxa8';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }),
+                      Builder(
+                          builder: (context) => menuButton("Program", () {
+                                Navigator.pushNamed(context, "/programme-view");
+                              })),
+                      Builder(
+                          builder: (context) => menuButton("Lista rzeczy", () {
+                                Navigator.pushNamed(context, "/items-view");
+                              })),
                     ],
                   ),
                 ),
               ),
             )));
+  }
+
+  Widget menuButton(String text, Function onPressed) {
+    return Padding(
+      padding:
+          const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0, bottom: 20.0),
+      child: Builder(
+        builder: (context) {
+          return RaisedButton(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              shape: new RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.white30, width: 3),
+                  borderRadius: new BorderRadius.circular(30.0)),
+              color: Colors.deepPurpleAccent,
+              padding: EdgeInsets.all(20.0),
+              onPressed: onPressed);
+        },
+      ),
+    );
   }
 }

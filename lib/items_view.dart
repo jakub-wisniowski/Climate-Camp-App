@@ -10,21 +10,12 @@ class ItemsView extends StatefulWidget {
 }
 
 class _ItemsViewState extends State<ItemsView> {
-  Map<String, bool> things = {};
-
-  Widget list;
-
-  bool firstBuild = true;
-
-  @override
-  initState() {
-    super.initState();
-  }
+  final Map<String, bool> things = {};
 
   Future<Null> getSharePrefs(String key) async {
     await SharedPreferences.getInstance().then((prefs) {
       String value = prefs.getString(key);
-      if (value != null && things[key] != null && !things[key]) {
+      if (value != null && things[key] == false) {
         setState(() {
           things[key] = true;
         });
@@ -33,15 +24,15 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   Future<Null> storeInput(String key, bool value) async {
-    await SharedPreferences.getInstance().then((prefs) => {
-          setState(() {
-            if (value)
-              prefs.setString(key, "1");
-            else
-              prefs.remove(key);
-            things[key] = !things[key];
-          })
-        });
+    await SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        if (value)
+          prefs.setString(key, "1");
+        else
+          prefs.remove(key);
+        things[key] = !things[key];
+      });
+    });
   }
 
   @override
@@ -77,7 +68,6 @@ class _ItemsViewState extends State<ItemsView> {
     }
 
     return Padding(
-      key: ValueKey(thing.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(

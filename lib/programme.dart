@@ -6,15 +6,10 @@ import 'programme_details_view.dart';
 
 import 'models/Programme.dart';
 
-class ProgrammeView extends StatefulWidget {
-  @override
-  _ProgrammeViewState createState() => _ProgrammeViewState();
-}
+class ProgrammeView extends StatelessWidget {
+  final DateFormat format = new DateFormat("EE dd.MM");
 
-class _ProgrammeViewState extends State<ProgrammeView> {
-  DateFormat format = new DateFormat("EE dd.MM");
-
-  DateFormat shortFormat = new DateFormat("HH:mm");
+  final DateFormat shortFormat = new DateFormat("HH:mm");
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +32,12 @@ class _ProgrammeViewState extends State<ProgrammeView> {
   }
 
   _buildMainContent(BuildContext context, List<DocumentSnapshot> snapshot) {
-    Map<int, List<DocumentSnapshot>> days = groupBy(snapshot, (item) {
-      DateTime date = item.data["date"];
-      return date.day;
-    });
+    //divide programme points into days
+    Map<int, List<DocumentSnapshot>> days =
+        groupBy(snapshot, (item) => item.data["date"].day);
 
-    var sortedKeys = days.keys.toList()
+    //sort days
+    List<int> sortedKeys = days.keys.toList()
       ..sort((key1, key2) => key1.compareTo(key2));
 
     return Container(
@@ -64,16 +59,15 @@ class _ProgrammeViewState extends State<ProgrammeView> {
 
   Widget _buildDay(
       BuildContext context, List<DocumentSnapshot> snapshot, String day) {
-    snapshot.sort((DocumentSnapshot a, DocumentSnapshot b) {
-      DateTime x = a.data["date"];
-      DateTime y = b.data["date"];
-      return x.compareTo(y);
-    });
+
+    //sort programme points within one day
+    snapshot.sort((DocumentSnapshot a, DocumentSnapshot b) =>
+        a.data["date"].compareTo(b.data["date"]));
 
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
           child: Align(
             alignment: Alignment.center,
             child: Container(
@@ -94,9 +88,8 @@ class _ProgrammeViewState extends State<ProgrammeView> {
               _buildListItem(context, snapshot[index]),
           itemCount: snapshot.length,
           shrinkWrap: true,
-          // todo comment this out and check the result
           physics:
-              ClampingScrollPhysics(), // todo comment this out and check the result
+              ClampingScrollPhysics(),
         ),
       ],
     );
