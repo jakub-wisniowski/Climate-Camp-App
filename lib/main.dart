@@ -6,7 +6,7 @@ import 'items_view.dart';
 import 'programme.dart';
 
 import 'initialize_i18n.dart' show initializeI18n;
-import 'constant.dart' show languages;
+import 'constant.dart' show LANGUAGES;
 import 'localizations.dart' show MyLocalizations, MyLocalizationsDelegate;
 
 
@@ -46,7 +46,7 @@ class _AppState extends State<App> {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        supportedLocales: languages.map((language) => Locale(language, '')),
+        supportedLocales: LANGUAGES.map((language) => Locale(language, '')),
     routes: <String, WidgetBuilder>{
           '/items-view': (BuildContext context) => ItemsView(),
           '/programme-view': (BuildContext context) => ProgrammeView()

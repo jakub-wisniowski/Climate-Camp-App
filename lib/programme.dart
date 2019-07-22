@@ -3,6 +3,7 @@ import "package:collection/collection.dart";
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:odk_app/services/current_language_service.dart';
+import 'constant.dart';
 import 'programme_details_view.dart';
 
 import 'models/Programme.dart';
@@ -13,14 +14,16 @@ class ProgrammeView extends StatefulWidget {
   _ProgrammeViewState createState() => _ProgrammeViewState();
 }
 
-
-
 class _ProgrammeViewState extends State<ProgrammeView> {
   final DateFormat format = new DateFormat("EE dd.MM");
 
   final DateFormat shortFormat = new DateFormat("HH:mm");
 
-  Duration timezoneOffset = DateTime.now().timeZoneOffset;
+  static Duration timezoneOffset = DateTime.now().timeZoneOffset;
+
+  Duration offsetToAdd = timezoneOffset.compareTo(Duration(hours: 0)) == 0
+      ? POLISH_TIMEZONE_OFFSET
+      : Duration(hours: 0);
 
   String _currentLanguage = "en";
 
@@ -41,9 +44,7 @@ class _ProgrammeViewState extends State<ProgrammeView> {
           title: Text(
               MyLocalizations.of(context).getTranslationByKey("programme")),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.language),
-                onPressed: onChangeLanguage)
+            IconButton(icon: Icon(Icons.language), onPressed: onChangeLanguage)
           ]),
       body: _buildBody(context),
     );
@@ -143,8 +144,8 @@ class _ProgrammeViewState extends State<ProgrammeView> {
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
               child: Text(
                 _currentLanguage == "en"
-                    ? "${shortFormat.format(programme.date)} ${programme.name}"
-                    : "${shortFormat.format(programme.date)} ${programme.polish}",
+                    ? "${shortFormat.format(programme.date.add(offsetToAdd))} ${programme.name}"
+                    : "${shortFormat.format(programme.date.add(offsetToAdd))} ${programme.polish}",
                 style: TextStyle(
                     color: programme.date.compareTo(DateTime.now()) < 0
                         ? Colors.white

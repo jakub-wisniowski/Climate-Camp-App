@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:odk_app/constant.dart';
 import 'package:odk_app/localizations.dart';
 import 'package:odk_app/models/Programme.dart';
 import 'package:odk_app/services/current_language_service.dart';
@@ -16,6 +17,12 @@ class ProgrammeDetailsView extends StatefulWidget {
 class _ProgrammeDetailsViewState extends State<ProgrammeDetailsView> {
   final Programme item;
   final DateFormat format = new DateFormat("HH:mm dd.MM");
+
+  static Duration timezoneOffset = DateTime.now().timeZoneOffset;
+
+  Duration offsetToAdd = timezoneOffset.compareTo(Duration(hours: 0)) == 0
+      ? POLISH_TIMEZONE_OFFSET
+      : Duration(hours: 0);
 
   String _currentLanguage;
 
@@ -85,7 +92,7 @@ class _ProgrammeDetailsViewState extends State<ProgrammeDetailsView> {
                   children: <Widget>[
                     rowElement(
                         MyLocalizations.of(context).getTranslationByKey("when"),
-                        "${format.format(item.date)}",
+                        "${format.format(item.date.add(offsetToAdd))}",
                         20.0,
                         40.0),
                     Divider(),

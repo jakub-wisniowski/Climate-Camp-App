@@ -1,7 +1,7 @@
 import 'dart:async' show Future;
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 import 'package:flutter/material.dart';
-import 'constant.dart' show languages;
+import 'constant.dart' show LANGUAGES;
 
 class MyLocalizations {
   final Map<String, Map<String, String>> localizedValues;
@@ -14,11 +14,6 @@ class MyLocalizations {
     return Localizations.of<MyLocalizations>(context, MyLocalizations);
   }
 
-  greetTo(name) {
-    return localizedValues[locale.languageCode]['greetTo']
-        .replaceAll('{{name}}', name);
-  }
-
   String getTranslationByKey(String key) =>
       localizedValues[locale.languageCode][key];
 }
@@ -29,7 +24,7 @@ class MyLocalizationsDelegate extends LocalizationsDelegate<MyLocalizations> {
   MyLocalizationsDelegate(this.localizedValues);
 
   @override
-  bool isSupported(Locale locale) => languages.contains(locale.languageCode);
+  bool isSupported(Locale locale) => LANGUAGES.contains(locale.languageCode);
 
   @override
   Future<MyLocalizations> load(Locale locale) {
